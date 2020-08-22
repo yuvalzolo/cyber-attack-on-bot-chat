@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+	<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Chat With Bot</title>
+
+		<!-- font + jquery -->
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Droid+Sans+Mono" rel="stylesheet">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		
+		<!-- plugin -->
+		<link href="./public/styles/jquery.highlight-within-textarea.css" rel="stylesheet">
+		<script src="./public/scripts/jquery.highlight-within-textarea.js"></script>
+
+		<!-- global styles -->
+		<link href="./public/styles/style.css" rel="stylesheet">
+	</head>
+
+	 <body>
+		<textarea name="myText" readonly id="botChat"></textarea>
+
+		<!-- *********************
+		TALK function
+		********************** -->
+		<div class="message-content">
+			<input type="text"
+				   placeholder=""
+				   onKeypress="enterButton(event, document.getElementsByTagName('input')[0].value);">
+			<button onClick="updateFile()">Talk</button>
+		</div>
+
+		<!-- *********************
+		SEARCH function
+		********************** -->
+		<div class="message-content">
+			<input class="search-input" type="text" id="fname" name="fname">
+			<button class="search-button" type="button" id="myBtn"
+				onclick="myFunction()">Search</button>
+				
+		</div>
+			<!-- The Modal -->
+		<div id="myModal" class="modal">
+
+		<!-- Modal content -->
+			<div class="modal-content">
+		<span class="close">&times;</span>
+		<p>Your search result : </p>
+			<div id="lblResponse"></div>
+			</div>
+
+</div>
+
+		<script>
+			$('#botChat').highlightWithinTextarea({
+				highlight: ''
+			});
+			
+			
+			// Get the modal
+		var modal = document.getElementById("myModal");
+
+		// Get the button that opens the modal
+		var btn = document.getElementById("myBtn");
+
+		// Get the <span> element that closes the modal
+		var span = document.getElementsByClassName("close")[0];
+
+		// When the user clicks on the button, open the modal
+		btn.onclick = function() {
+		  modal.style.display = "block";
+		 var words =  myFunction(document.getElementsByTagName('input')[0].value)
+		  
+		}
+
+		// When the user clicks on <span> (x), close the modal
+		span.onclick = function() {
+		  modal.style.display = "none";
+		  
+		}
+
+		// When the user clicks anywhere outside of the modal, close it
+		window.onclick = function(event) {
+		  if (event.target == modal) {
+		  
+			modal.style.display = "none";
+		  }
+		}
+			
+		</script>
+
+		<script src='./public/scripts/bot.js'></script>
+		<!-- <link rel="import" href="./timingAttack.html"> -->
+		
+	 </body>
+
+	</html>

